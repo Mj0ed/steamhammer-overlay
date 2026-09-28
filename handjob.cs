@@ -184,3 +184,8 @@ SH_execOverlayScript("gui/scripts/languageOverride.cs");
 SH_execOverlayScript("gui/scripts/buildOverride.cs");
 SH_execOverlayScript("gui/scripts/observeOverride.cs");
 SH_execOverlayScript("gui/scripts/adminCommands.cs");
+SH_execOverlayScript("gui/scripts/characterOverride.cs");
+SH_execOverlayScript("gui/scripts/hudOverride.cs");
+SH_execOverlayScript("gui/scripts/disconnectOverride.cs");
+SH_execOverlayScript("gui/scripts/combatOverride.cs");
+SH_execOverlayScript("gui/scripts/chatOverride.cs");
