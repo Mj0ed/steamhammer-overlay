@@ -1115,9 +1115,46 @@ function sh_LifDestroyLayout()
    $SH_Lif::DragBars = "";
 }
 
+// "Character stats" next to Minor: the stock window has no way to the stats
+// (Strength, Agility, Constitution, Intellect, Willpower with their up / down /
+// pause lock buttons) - they are in the character window opened with P
+// (showCharWindow -> showSkillStatDlg(false) -> statsWindow.gui). This button
+// closes the skill window and opens that one, so the game's own stats panel -
+// which the engine fills and whose lock buttons already work - is used as it is.
+// Added to the same horizontal stack as the Craft / Combat / Minor buttons.
+function sh_AddCharStatsButton()
+{
+   if (isObject(ShowCharStatsBtn) || !isObject(ShowMinorSkillBtn))
+      return;
+   %stack = ShowMinorSkillBtn.getGroup();
+   if (!isObject(%stack))
+      return;
+   %stack.add(new GuiIconButtonCtrl(ShowCharStatsBtn)
+   {
+      extent = "150 30";
+      HorizSizing = "left";
+      vertSizing = "center";
+      command = "sh_ShowCharStats();";
+      profile = "GuiSkillStatBtnSkilsProfile";
+      text = "Character stats";
+      imageIndex = getStrengthIcon();
+      renderBorder = false;
+      textMargin = 5;
+      autoSize = true;
+   });
+}
+
+function sh_ShowCharStats()
+{
+   if (isFunction("closeSkillStatDlg"))
+      closeSkillStatDlg();
+   showCharWindow(1);
+}
+
 function sh_EnsureSkillTreeLayout()
 {
    sh_LifProfiles();
+   sh_AddCharStatsButton();
    // layout from the panel's real size (screens / window setups differ)
    %ext = GuiSkillPanel.extent;
    if (isObject(SH_LifTreeScroll) && $SH_Lif::BuiltFor $= %ext)
