@@ -250,3 +250,19 @@ function toggleEscMenu(%show, %onlyOptions)
          hideCursor();
    }
 }
+
+// scripts/client/serverConnection.cs::cleanPrefs() (called from
+// disconnectedCleanup() on every disconnect/quit) resets $pref::language::pack
+// to "" right before onExit() exports data/prefs.cs, so the language chosen in
+// the menu was wiped before the next start - the only time loc packs load.
+// Keep the player's choice; everything else cleanPrefs does is unchanged.
+package SH_LanguagePersist
+{
+   function cleanPrefs()
+   {
+      %lang = $pref::language::pack;
+      Parent::cleanPrefs();
+      $pref::language::pack = %lang;
+   }
+};
+activatePackage(SH_LanguagePersist);
